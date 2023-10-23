@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 from torch import optim
-import gym
+import gymnasium as gym
 
 from rich.progress import Progress, BarColumn, TextColumn
 from rich.live import Live
@@ -53,7 +53,8 @@ class DataHandler:
 
     def avoid_beginning_steps(self):
         for i_step in range(params.AVOIDED_STEPS):
-            obs, reward, done, info = self.env.step(3)
+            obs, reward, terminated, truncated, info = self.env.step(3)
+            done = terminated or truncated
 
     def select_action(self, state):
         sample = random.random()
@@ -107,8 +108,8 @@ class DataHandler:
         with Live(progress):
             while True:
                 if self.steps_done > params.MAX_FRAMES:
-                    save_model(self.policy.state_dict(), "policy", self.episodes)
-                    save_model(self.target.state_dict(), "target", self.episodes)
+                    save_model(self.paths.path_models, self.policy.state_dict(), "policy", self.episodes)
+                    save_model(self.paths.path_models, self.target.state_dict(), "target", self.episodes)
                     break
                 for _ in self.run_one_episode():
                     yield
@@ -125,7 +126,8 @@ class DataHandler:
         self.avoid_beginning_steps()
         # Initialization first observations
         observations = init_obs(self.env)
-        obs, reward, done, info = self.env.step(3)
+        obs, reward, terminated, truncated, info = self.env.step(3)
+        done = terminated or truncated
         state = preprocess_observation(observations, obs)
 
         got_reward = False
@@ -138,7 +140,8 @@ class DataHandler:
             action = self.select_action(state)
             action_ = ACTIONS[old_action][action.item()]
 
-            obs, reward_, done, info = self.env.step(action_)
+            obs, reward_, terminated, truncated, info = self.env.step(action_)
+            done = terminated or truncated
             self.buffer.image = obs.copy()
             reward = transform_reward(reward_)
 
@@ -183,7 +186,8 @@ class DataHandler:
                 break
             if jump_dead_step:
                 for i_dead in range(params.DEAD_STEPS):
-                    obs, reward, done, info = self.env.step(0)
+                    obs, reward, terminated, truncated, info = self.env.step(0)
+                    done = terminated or truncated
                 jump_dead_step = False
             yield
 
