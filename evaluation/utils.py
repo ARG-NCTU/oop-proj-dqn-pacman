@@ -3,7 +3,7 @@ from utils import ACTIONS
 from deep_Q_network import parameters as params
 from deep_Q_network import device, init_obs, preprocess_observation
 from deep_Q_network import DQN, Buffer, ALEInterface, Pacman
-import gym
+import gymnasium as gym
 
 def moving_average(values, n):
     offset = (n - 1) // 2
@@ -125,10 +125,11 @@ def record(ep, path):
 
     # Avoid beginning steps of the game
     for i_step in range(params.AVOIDED_STEPS):
-        obs, reward, done, info = env.step(3)
+        obs, reward, terminated, truncated, info = env.step(3)
+        done = terminated or truncated
 
     observations = init_obs(env)
-    obs, reward, done, info = env.step(3)
+    obs, reward, terminated, truncated, info = env.step(3)
     out.write(cv2.cvtColor(obs, cv2.COLOR_RGB2BGR))
     old_action = 3
 
@@ -146,7 +147,8 @@ def record(ep, path):
         # action = agent(state).max(1)[1].view(1, 1)
 
         action_ = ACTIONS[old_action][action.item()]
-        obs, reward, done, info = env.step(action_)
+        obs, reward, terminated, truncated, info = env.step(action_)
+        done = terminated or truncated
         out.write(cv2.cvtColor(obs, cv2.COLOR_RGB2BGR))
         old_action = action_
         if done:
