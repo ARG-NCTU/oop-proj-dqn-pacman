@@ -52,6 +52,7 @@ RUN apt-get -o Acquire::ForceIPv4=true update && apt-get -yq dist-upgrade \
     python3-numpy \
     python3-empy  \
     python3-dev \ 
+    python3-tk \ 
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -63,7 +64,7 @@ RUN pip3 install ale-py==0.8 \
     orjson \
     gymnasium \
     gymnasium[atari] \
-    gymnasium[accept-rom-license]
+    gymnasium[accept-rom-license] 
 
 RUN pip3 install \
     matplotlib \
@@ -74,6 +75,16 @@ RUN pip3 install \
     quart \
     rich \
     opencv-python
+    
+RUN pip3 install stable-baselines3[extra]
+
+RUN pip3 install scikit-learn
+
+RUN pip3 install swig
+RUN pip3 install gymnasium[box2d]
+
+################################# tkinter #####################################
+RUN pip3 install mypy
 
 ##################################### setting ###################################################
 
