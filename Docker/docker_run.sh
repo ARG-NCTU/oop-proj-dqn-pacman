@@ -61,10 +61,5 @@ docker run \
     --privileged \
     --security-opt seccomp=unconfined \
     $DOCKER_OPTS \
-<<<<<<< HEAD
-    argnctu/dqn_pacman \
-    $BASH_OPTION
-=======
     argnctu/oop:gpu \
     $BASH_OPTION
->>>>>>> 2b6c378c213adc7b735e1f031efa2a9c55ede6bd
