@@ -52,7 +52,7 @@ docker run \
     -v "/etc/localtime:/etc/localtime:ro" \
     -v "/dev:/dev" \
     -v "/var/run/docker.sock:/var/run/docker.sock" \
-    -v "/home/$USER/dqn-pacman:/home/arg/dqn-pacman" \
+    -v "/home/$USER/oop-proj-dqn-pacman:/home/arg/dqn-pacman" \
     -v "/home/$USER/arg_tools:/home/arg/arg_tools" \
     -w "/home/arg/dqn-pacman" \
     --user "root:root" \
