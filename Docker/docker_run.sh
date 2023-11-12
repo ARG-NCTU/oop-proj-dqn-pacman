@@ -52,14 +52,19 @@ docker run \
     -v "/etc/localtime:/etc/localtime:ro" \
     -v "/dev:/dev" \
     -v "/var/run/docker.sock:/var/run/docker.sock" \
-    -v "/home/$USER/oop-proj-dqn-pacman:/home/arg/dqn-pacman" \
+    -v "/home/$USER/oop-proj-dqn-pacman:/home/arg/oop-proj-dqn-pacman" \
     -v "/home/$USER/arg_tools:/home/arg/arg_tools" \
-    -w "/home/arg/dqn-pacman" \
+    -w "/home/arg/oop-proj-dqn-pacman" \
     --user "root:root" \
     --name argmm \
     --network host \
     --privileged \
     --security-opt seccomp=unconfined \
     $DOCKER_OPTS \
+<<<<<<< HEAD
     argnctu/dqn_pacman \
     $BASH_OPTION
+=======
+    argnctu/oop:gpu \
+    $BASH_OPTION
+>>>>>>> 2b6c378c213adc7b735e1f031efa2a9c55ede6bd

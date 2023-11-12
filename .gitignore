@@ -54,3 +54,6 @@ venv.bak/
 
 # Pickle
 .pkl
+
+tags
+*.orig
